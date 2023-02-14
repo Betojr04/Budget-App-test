@@ -1,0 +1,9 @@
+card {
+  background: "white";
+  borderradius: "10px";
+  boxshadow: "0 0 10px rgba(0,0,0,0.1)";
+  display: "flex";
+  flexdirection: "column";
+  padding: "20px";
+  margin: "20px";
+}
