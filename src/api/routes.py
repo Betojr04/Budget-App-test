@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 api = Blueprint('api', __name__)
 
 
@@ -16,3 +20,30 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/createaccount', methods=['POST'])
+def create_account():
+    body = request.get_json(force = True)
+    email = body['email']
+    password = hashlib.sha256(body['password'].encode("utf-8")).hexdigest()
+    has_email = User.query.filter_by(email = email).first()
+    if has_email is None:
+        new_user = User(email = email, password = password, is_active = True)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify('Successfully created account!')
+    else:
+        return jsonify('User already exists :(')
+
+@api.route('/login', methods=['POST'])
+def handle_login():
+    body = request.get_json(force = True)
+    email = body['email']
+    password = hashlib.sha256(body['password'].encode("utf-8")).hexdigest()
+    print(password)
+    has_user = User.query.filter_by(email = email, password = password).first()
+    if has_user is not None:
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token = access_token)
+    else:
+        return jsonify("Wrong email or password")
