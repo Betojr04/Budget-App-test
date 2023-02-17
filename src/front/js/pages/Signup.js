@@ -3,6 +3,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Signup = () => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [error, setError] = useState("");
+  const Navigate = useNavigate();
+  console.log(email, password);
+  const createAccount = (e) => {
+    e.preventDefault();
+    fetch();
+  };
+
   return (
     <div>
       <form>
