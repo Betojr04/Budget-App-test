@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Signup = () => {
   const [email, setEmail] = useState();
@@ -10,48 +9,72 @@ export const Signup = () => {
   console.log(email, password);
   const createAccount = (e) => {
     e.preventDefault();
-    fetch();
-  };
+    fetch("https://3001-betojr04-budgetapp-n907wq3v9w1.ws-us87.gitpod.io", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((Response) => {
+        return Response.json();
+      })
+      .then((result) => {
+        if (result.includes("User already exists :(")) {
+          setError("Username Taken");
+        } else {
+          console.log(result);
+          Navigate("/Login");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  return (
-    <div>
-      <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
-          <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
+    return (
+      <div>
+        <form onSubmit={createAccount} className="container">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">
+              Email address
+            </label>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+            <div id="emailHelp" class="form-text">
+              {error}
+            </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        {/* <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">
+              Password
+            </label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">
             Signup
-          </label>
-        </div> */}
-        <button type="submit" class="btn btn-primary">
-          Signup
-        </button>
-      </form>
-    </div>
-  );
+          </button>
+          <Link to="/Login">
+            <button type="submit" className="btn btn-primary">
+              Login
+            </button>
+          </Link>
+        </form>
+      </div>
+    );
+  };
 };
 
 export default Signup;
