@@ -9,14 +9,17 @@ export const Signup = () => {
   console.log(email, password);
   const createAccount = (e) => {
     e.preventDefault();
-    fetch("https://3001-betojr04-budgetapp-n907wq3v9w1.ws-us87.gitpod.io", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      headers: { "Content-Type": "application/json" },
-    })
+    fetch(
+      "https://3001-betojr04-budgetapp-1gp5rum3qed.ws-us87.gitpod.io/api/createaccount",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+        headers: { "Content-Type": "application/json" },
+      }
+    )
       .then((Response) => {
         return Response.json();
       })
