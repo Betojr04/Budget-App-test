@@ -1,47 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom";
-
-export const Login = () => {
+export default function Login() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [error, setError] = useState("");
+  const Navigate = useNavigate();
+  const handlelogin = (e) => {
+    e.preventDefault();
+    fetch(
+      "https://3001-betojr04-budgetapp-7uoohlv4lyo.ws-us87.gitpod.io/api/Login",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((Response) => {
+        return Response.json();
+      })
+      .then((result) => {
+        if (
+          typeof result == "string" &&
+          result.includes("Wrong email or password")
+        ) {
+          setError("Wrong email or password");
+        } else {
+          console.log(result);
+          localStorage.setItem("jwt", result.access_token);
+          Navigate("/privateDashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
-    <div>
-      <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
-          <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
-          </div>
+    <form className="container" onSubmit={handlelogin}>
+      <div className="mb-3">
+        <label for="exampleInputEmail1" className="form-label">
+          Email address
+        </label>
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          type="email"
+          className="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <div id="emailHelp" className="form-text">
+          {error}
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">
-            Remember me
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary">
-          Login
-        </button>
-      </form>
-    </div>
+      </div>
+      <div className="mb-3">
+        <label for="exampleInputPassword1" className="form-label">
+          Password
+        </label>
+        <input
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          type="password"
+          className="form-control"
+          id="exampleInputPassword1"
+        />
+      </div>
+      <div className="mb-3 form-check">
+        <input
+          type="checkbox"
+          className="form-check-input"
+          id="exampleCheck1"
+        />
+        <label className="form-check-label" for="exampleCheck1">
+          Check me out
+        </label>
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Login
+      </button>
+    </form>
   );
-};
-
-export default Login;
+}

@@ -10,7 +10,7 @@ export const Signup = () => {
   const createAccount = (e) => {
     e.preventDefault();
     fetch(
-      "https://3001-betojr04-budgetapp-1gp5rum3qed.ws-us87.gitpod.io/api/createaccount",
+      "https://3001-betojr04-budgetapp-7uoohlv4lyo.ws-us87.gitpod.io/api/createaccount",
       {
         method: "POST",
         body: JSON.stringify({
@@ -34,50 +34,50 @@ export const Signup = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    return (
-      <div>
-        <form onSubmit={createAccount} className="container">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">
-              Email address
-            </label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-            <div id="emailHelp" class="form-text">
-              {error}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">
-              Password
-            </label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">
-            Signup
-          </button>
-          <Link to="/Login">
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
-          </Link>
-        </form>
-      </div>
-    );
   };
+
+  return (
+    <div>
+      <form onSubmit={createAccount} className="container">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">
+            Email address
+          </label>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+          <div id="emailHelp" class="form-text">
+            {error}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">
+            Password
+          </label>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Signup
+        </button>
+        <Link to="/Login">
+          <button type="submit" className="btn btn-primary">
+            Login
+          </button>
+        </Link>
+      </form>
+    </div>
+  );
 };
 
 export default Signup;
