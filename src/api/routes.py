@@ -48,3 +48,5 @@ def handle_login():
         return jsonify(access_token = access_token)
     else:
         return jsonify("Wrong email or password")
+
+

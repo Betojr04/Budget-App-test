@@ -18,3 +18,8 @@ class User(db.Model):
             "is_active": self.is_active,
             # do not serialize the password, its a security breach
         }
+
+class Category(db.Model):
+    name = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(120), unique=False, nullable=False)
+    amount = db.Column(db.Integer, unique=False, nullable=False)
